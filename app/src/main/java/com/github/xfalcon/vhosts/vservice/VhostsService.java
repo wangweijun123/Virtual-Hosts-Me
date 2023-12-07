@@ -31,6 +31,8 @@ import android.os.Looper;
 import android.os.ParcelFileDescriptor;
 import android.widget.Toast;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.preference.PreferenceManager;
+
 import com.github.xfalcon.vhosts.NetworkReceiver;
 import com.github.xfalcon.vhosts.R;
 import com.github.xfalcon.vhosts.SettingsFragment;
@@ -173,7 +175,7 @@ public class VhostsService extends VpnService {
             builder.addAddress(VPN_ADDRESS6, 128);
 
 
-            SharedPreferences settings = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
             String VPN_DNS4_DEFAULT = getString(R.string.dns_server);
             boolean is_cus_dns = settings.getBoolean(SettingsFragment.IS_CUS_DNS, false);
             String VPN_DNS4 = VPN_DNS4_DEFAULT;
@@ -194,17 +196,33 @@ public class VhostsService extends VpnService {
 //            builder.addRoute(VPN_ROUTE6,0);
             builder.addDnsServer(VPN_DNS4);
             builder.addDnsServer(VPN_DNS6);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                String[] whiteList = {"com.android.vending", "com.google.android.apps.docs", "com.google.android.apps.photos", "com.google.android.gm", "com.google.android.apps.translate"};
-                for (String white : whiteList) {
-                    try {
-                        builder.addDisallowedApplication(white);
-                    } catch (PackageManager.NameNotFoundException e) {
-                        LogUtils.e(TAG, e.getMessage(), e);
-                    }
 
+
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                String[] whiteList = {"com.android.vending", "com.google.android.apps.docs", "com.google.android.apps.photos", "com.google.android.gm", "com.google.android.apps.translate"};
+//                for (String white : whiteList) {
+//                    try {
+//                        builder.addDisallowedApplication(white);
+//                    } catch (PackageManager.NameNotFoundException e) {
+//                        LogUtils.e(TAG, e.getMessage(), e);
+//                    }
+//
+//                }
+//            }
+
+            // 1 监控哪个应用 2 监控哪个这个应用的哪个玉米(需要写host)
+//            xyz.hexene.demo
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                try {
+                    // 只容许demo应用访问vpn
+//                    builder.addAllowedApplication("xyz.hexene.demo");
+                    builder.addAllowedApplication("com.zhihu.android");
+                } catch (PackageManager.NameNotFoundException e) {
+                    LogUtils.e(TAG, e.getMessage(), e);
                 }
             }
+
+
             vpnInterface = builder.setSession(getString(R.string.app_name)).setConfigureIntent(pendingIntent).establish();
         }
     }

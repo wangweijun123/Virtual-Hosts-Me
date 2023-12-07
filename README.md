@@ -42,3 +42,12 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+VPNRunnable             com.github.xfalcon.vhosts            W  Unknown packet type
+DnsChange               com.github.xfalcon.vhosts            D  query: 1 :www.a.com.
+DnsChange               com.github.xfalcon.vhosts            D  hit: 1 :www.a.com. :192.168.11.1
+VPNRunnable             com.github.xfalcon.vhosts            W  Unknown packet type
+DnsChange               com.github.xfalcon.vhosts            D  query: 28 :ccc.sys.miui.com.
+DnsChange               com.github.xfalcon.vhosts            D  query: 1 :ccc.sys.miui.com.
+VPNRunnable             com.github.xfalcon.vhosts            W  Unknown packet type
